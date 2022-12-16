@@ -1,0 +1,40 @@
+feign:
+  circuitbreaker:
+    enabled: true
+  metrics:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 0
+        readTimeout: 15000
+        loggerLevel: basic
+        retryer: com.example.demo.config.DemoRetryer
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      demo:
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 3
+        waitDurationInOpenState: 50s
+        failureRateThreshold: 50
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    com:
+      example:
+        demo:
+          StoreClient: debug
+
+
+
+server:
+  port: 8088
